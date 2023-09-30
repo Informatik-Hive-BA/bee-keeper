@@ -17,4 +17,9 @@ intents.__setattr__('message_content', True)
 
 client = discord.Client(intents=intents)
 
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
 client.run(__token__)
