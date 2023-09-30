@@ -6,6 +6,8 @@ load_dotenv()
 __token__ = os.getenv('TOKEN', '')
 
 intents = discord.Intents.default()
-intents.message_content = True
+intents.__setattr__('message_content', True)
+
+client = discord.Client(intents=intents)
 
 client.run(__token__)
