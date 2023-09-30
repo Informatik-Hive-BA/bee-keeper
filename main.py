@@ -17,4 +17,4 @@ intents.__setattr__('message_content', True)
 
 client = discord.Client(intents=intents)
 
-@client.event
+client.run(__token__)
