@@ -1,3 +1,6 @@
+###################################################
+# Please add new dependencies to requirements.txt #
+###################################################
 import os
 from dotenv import load_dotenv
 import discord
