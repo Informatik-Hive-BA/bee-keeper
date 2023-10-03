@@ -28,4 +28,10 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+    if client.user.mentioned_in(message):
+        await message.channel.send('Summ, summ, summ,\neine Erwänung von {0.mention}, ach wie dumm!'.format(message.author))
+
+    if message.content.startswith('ping'):
+         await message.channel.send('pong')
+
 client.run(__token__)
