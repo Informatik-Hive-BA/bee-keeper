@@ -19,6 +19,7 @@ load_dotenv()
 __token__ = os.getenv('TOKEN', '')
 
 intents = discord.Intents.default()
+intents.members = True
 intents.__setattr__('message_content', True)
 
 client = discord.Client(intents=intents)
@@ -33,5 +34,38 @@ async def on_message(message):
 
     if message.content.startswith('ping'):
          await message.channel.send('pong')
+
+@client.event
+async def on_raw_reaction_add(payload):
+    channel = client.get_channel(payload.channel_id)
+
+    if channel.name != 'regeln':
+        return
+
+    current_guild = next(x for x in client.guilds if x.id == payload.guild_id)
+    csciencedude_role = next(x for x in current_guild.roles if x.name == 'cScience Dude')
+    member_already_has_role = next((x for x in payload.member.roles if x.id == csciencedude_role.id), None) is not None
+
+    if not member_already_has_role:
+        await payload.member.add_roles(csciencedude_role)
+
+    return
+
+@client.event
+async def on_raw_reaction_remove(payload):
+    channel = client.get_channel(payload.channel_id)
+
+    if channel.name != 'regeln':
+        return
+
+    current_guild = next(x for x in client.guilds if x.id == payload.guild_id)
+    member = current_guild.get_member(payload.user_id)
+    csciencedude_role = next(x for x in current_guild.roles if x.name == 'csciencedude')
+    member_already_has_role = next((x for x in member.roles if x.id == csciencedude_role.id), None) is not None
+
+    if member_already_has_role:
+        await member.remove_roles(csciencedude_role)
+
+    return
 
 client.run(__token__)
