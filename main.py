@@ -60,7 +60,7 @@ async def on_raw_reaction_remove(payload):
 
     current_guild = next(x for x in client.guilds if x.id == payload.guild_id)
     member = current_guild.get_member(payload.user_id)
-    csciencedude_role = next(x for x in current_guild.roles if x.name == 'csciencedude')
+    csciencedude_role = next(x for x in current_guild.roles if x.id == '638361341417095168')
     member_already_has_role = next((x for x in member.roles if x.id == csciencedude_role.id), None) is not None
 
     if member_already_has_role:
